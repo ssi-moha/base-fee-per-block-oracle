@@ -49,7 +49,7 @@ contract APIConsumer is ChainlinkClient {
         // Set the URL to perform the GET request on
         request.add(
             "get",
-            "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD"
+            "https://enormous-silkworm-21.hasura.app/api/rest/get-base-fee-average"
         );
 
         // Set the path to find the desired data in the API response, where the response format is:
@@ -64,11 +64,7 @@ contract APIConsumer is ChainlinkClient {
         //  }
         // Chainlink node versions prior to 1.0.0 supported this format
         // request.add("path", "RAW.ETH.USD.VOLUME24HOUR");
-        request.add("path", "RAW,ETH,USD,VOLUME24HOUR");
-
-        // Multiply the result by 1000000000000000000 to remove decimals
-        int256 timesAmount = 10**18;
-        request.addInt("times", timesAmount);
+        request.add("path", "block_aggregate, aggregate, avg, base_fee");
 
         // Sends the request
         return sendChainlinkRequestTo(oracle, request, fee);
